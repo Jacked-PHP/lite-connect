@@ -7,6 +7,7 @@ use Faker\Generator;
 use JackedPhp\LiteConnect\Connection\Connection;
 use JackedPhp\LiteConnect\Migration\MigrationManager;
 use JackedPhp\LiteConnect\SQLiteFactory;
+use RuntimeException;
 use Tests\Samples\CreateUsersTable;
 use Tests\Samples\User;
 use function PHPUnit\Framework\assertCount;
@@ -66,6 +67,7 @@ function getAllUsers(Connection $connection): array {
 }
 
 test('test can access with access through pdo', function () {
+    /** @var Connection $connection */
     $connection = startDatabase();
 
     $expectedName = 'John Doe';
@@ -89,6 +91,7 @@ test('test can access with access through pdo', function () {
 });
 
 test('test can access with access through model', function () {
+    /** @var Connection $connection */
     $connection = startDatabase();
 
     $expectedName = 'John Doe';
@@ -104,6 +107,7 @@ test('test can access with access through model', function () {
 });
 
 test('test can filter records with where statement', function () {
+    /** @var Connection $connection */
     $connection = startDatabase();
 
     $name1 = 'Test 1';
@@ -142,6 +146,7 @@ test('test can filter records with where statement', function () {
 });
 
 test('test can order records', function () {
+    /** @var Connection $connection */
     $connection = startDatabase();
 
     $name1 = 'Test 1';
@@ -166,6 +171,7 @@ test('test can order records', function () {
 });
 
 test('test can find record', function () {
+    /** @var Connection $connection */
     $connection = startDatabase();
 
     $name1 = 'Test 1';
@@ -194,6 +200,7 @@ test('test can find record', function () {
 });
 
 test('test can delete record', function () {
+    /** @var Connection $connection */
     $connection = startDatabase();
 
     $name1 = 'Test 1';
@@ -215,6 +222,7 @@ test('test can delete record', function () {
 });
 
 test('test can delete all records', function () {
+    /** @var Connection $connection */
     $connection = startDatabase();
 
     $name1 = 'Test 1';
@@ -234,3 +242,17 @@ test('test can delete all records', function () {
 
     assertCount(0, getAllUsers($connection));
 });
+
+test('test can close connection', function () {
+    /** @var Connection $connection */
+    $connection = startDatabase();
+
+    createUser($connection);
+    createUser($connection);
+    createUser($connection);
+    assertCount(3, getAllUsers($connection));
+
+    $connection->close();
+
+    getAllUsers($connection);
+})->expectExceptionObject(new RuntimeException('Connection is closed'));

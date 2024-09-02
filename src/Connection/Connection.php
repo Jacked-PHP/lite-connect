@@ -3,6 +3,7 @@
 namespace JackedPhp\LiteConnect\Connection;
 
 use PDO;
+use RuntimeException;
 
 class Connection
 {
@@ -16,6 +17,15 @@ class Connection
 
     public function getPDO(): PDO
     {
+        if ($this->pdo === null) {
+            throw new RuntimeException('Connection is closed');
+        }
+
         return $this->pdo;
+    }
+
+    public function close(): void
+    {
+        $this->pdo = null;
     }
 }
