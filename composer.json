@@ -1,0 +1,25 @@
+{
+    "name": "jacked-php/lite-connect",
+    "description": "A SQLite connection pool manager with migrations and model abstraction",
+    "type": "library",
+    "require": {
+        "php": ">=8.3",
+        "ext-pdo": "*",
+        "ext-sqlite3": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "JackedPhp\\LiteConnect\\": "src/",
+            "Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.35",
+        "fakerphp/faker": "^1.23"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
