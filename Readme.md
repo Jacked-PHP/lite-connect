@@ -137,7 +137,7 @@ vendor/bin/pest
 
 ## Contributing
 
-If you would like to contribute to LiteConnect, please feel free to submit pull requests or open issues on the [GitHub repository](https://github.com/Jacked-PHP/liteconnect).
+If you would like to contribute to LiteConnect, please feel free to submit pull requests or open issues on the [GitHub repository](https://github.com/Jacked-PHP/lite-connect).
 
 ## License
 
