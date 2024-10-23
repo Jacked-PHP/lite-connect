@@ -2,6 +2,7 @@
 
 namespace JackedPhp\LiteConnect\Model;
 
+use InvalidArgumentException;
 use JackedPhp\LiteConnect\Connection\Connection;
 use PDO;
 
@@ -164,5 +165,18 @@ abstract class BaseModel
         $stmt = $pdo->prepare($sqlStatement);
         $stmt->execute(array_map(fn($condition) => $condition['value'], $this->where));
         $this->reset();
+    }
+
+    public function update(array $data): bool
+    {
+        if (empty($data) || $this->id === null) {
+            throw new InvalidArgumentException('Invalid data or ID not set.');
+        }
+
+        $pdo = $this->connection->getPDO();
+        $columns = implode(', ', array_map(fn($column) => "$column = ?", array_keys($data)));
+        $stmt = $pdo->prepare("UPDATE {$this->table} SET $columns WHERE id = :id");
+
+        return $stmt->execute(array_merge(array_values($data), ['id' => $this->id]));
     }
 }

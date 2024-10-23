@@ -243,6 +243,20 @@ test('test can delete all records', function () {
     assertCount(0, getAllUsers($connection));
 });
 
+test('test can update records', function () {
+    /** @var Connection $connection */
+    $connection = startDatabase();
+
+    $user = createUser($connection);
+    $expectedName = $user->name . ' - Updated Name';
+    $user->update([
+        'name' => $expectedName,
+    ]);
+
+    $newUser = current(getAllUsers($connection));
+    assertEquals($expectedName, $newUser['name']);
+});
+
 test('test can close connection', function () {
     /** @var Connection $connection */
     $connection = startDatabase();
