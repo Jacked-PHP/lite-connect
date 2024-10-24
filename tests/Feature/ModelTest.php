@@ -12,6 +12,7 @@ use Tests\Samples\CreateUsersTable;
 use Tests\Samples\User;
 use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertFalse;
 
 function fake() {
     global $faker;
@@ -267,6 +268,7 @@ test('test can close connection', function () {
     assertCount(3, getAllUsers($connection));
 
     $connection->close();
+    assertFalse($connection->isConnected());
 
     getAllUsers($connection);
 })->expectExceptionObject(new RuntimeException('Connection is closed'));

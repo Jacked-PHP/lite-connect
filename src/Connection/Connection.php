@@ -28,4 +28,9 @@ class Connection
     {
         $this->pdo = null;
     }
+
+    public function isConnected(): bool
+    {
+        return $this->pdo !== null;
+    }
 }
