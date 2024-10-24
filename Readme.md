@@ -138,7 +138,9 @@ use OpenSwoole\Core\Coroutine\Pool\ClientPool;
 
 $connectionPool = new ClientPool(
     factory: SQLiteFactory::class,
-    config: Config::get('persistence.connections.' . Config::get('persistence.default')),
+    config: [
+        'database' => 'path/to/your/database.db',
+    ],
     size: 1,
 );
 
