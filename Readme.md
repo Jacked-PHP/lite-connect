@@ -127,6 +127,28 @@ $filteredUsers = $users->where('name', '=', 'John Doe')->get();
 $orderedUsers = $users->orderBy('id', 'desc')->get();
 ```
 
+## Using a Connection Pool
+
+> This example demonstrate how to do so with OpenSwoole - that is not a requirement for this package.
+
+If your project is using `OpenSwoole\Core` package (https://github.com/openswoole/core), here is how you accomplish it:
+
+```php
+use OpenSwoole\Core\Coroutine\Pool\ClientPool;
+
+$connectionPool = new ClientPool(
+    factory: SQLiteFactory::class,
+    config: Config::get('persistence.connections.' . Config::get('persistence.default')),
+    size: 1,
+);
+
+// here you get the connection:
+$connection = $connectionPool->get();
+
+// here you put back the connection:
+$connectionPool->put($connection);
+```
+
 ## Testing
 
 You can run tests by running the following after cloning the repository and installing dependencies:
